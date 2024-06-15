@@ -7,5 +7,25 @@
 </head>
 <body>
   <h1>Form to recover email</h1>
+  <form id="formPassword">
+    <input type="email" id="email"  placeholder="Ingresa tu email">
+    <button>Recuperar contraseña</button>
+  </form>
+
+
+  <script>
+    document.getElementById("formPassword").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      fetch("/api/recuperarPassword", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({email})
+      }).then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err))
+      
+    })
+  </script>
 </body>
 </html>

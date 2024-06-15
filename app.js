@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 const authRoutes = require("./routes/auth");
+const changePasswordRoutes = require("./routes/changePassword");
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,13 +23,14 @@ mongoose
   });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/recuperarPassword", changePasswordRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
 app.get("/recoverEmail", (req, res) => {
-  res.render(path.join(__dirname, "views", "recoverEmail.html"));
+  res.sendFile(path.join(__dirname, "views", "recoverEmail.html"));
 });
 
 app.listen(PORT, () => {
