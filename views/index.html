@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+  <style>
+    .recoverpassword {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Login</h1>
@@ -12,6 +17,10 @@
     <input type="password" id="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
+
+  <div class="recoverpassword">
+    <button id="recoverPassword">Recuperar contraseña</button>
+  </div>
 
   <h1>Registro</h1>
   <form id="registerForm">
@@ -22,7 +31,6 @@
 
   <h1>Acceder a Ruta Protegida</h1>
   <button id="protectedBtn">Acceder</button>
-  <button id="recoverPassword">Recuperar contraseña</button>
 
   <script>
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
