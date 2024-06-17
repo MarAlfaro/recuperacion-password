@@ -3,9 +3,19 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const verifyToken = require("../middleware/auth");
+const path = require("path");
+
+router.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "login.html"));
+});
+
+router.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views", "register.html"));
+});
 
 router.post("/register", async (req, res) => {
   const { nombre, apellido, nombreUsuario, password, correo } = req.body;
+  console.log(req.body);
   try {
     const newUser = new User({
       nombre,
@@ -17,6 +27,7 @@ router.post("/register", async (req, res) => {
     await newUser.save();
     res.status(201).send("Usuario registrado");
   } catch (error) {
+    console.log(error);
     res.status(400).send("Error registrando usuario");
   }
 });
@@ -26,8 +37,13 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ nombreUsuario, password });
     if (!user) {
-      return res.status(401).send("Credenciales inválidas");
+      return res.status(400).json("credenciales inválidas");
     }
+
+    if (user.password !== password) {
+      return res.status(400).json("credenciales inválidas");
+    }
+
     const token = jwt.sign(
       { id: user._id, username: user.nombreUsuario },
       process.env.SECRET_KEY,

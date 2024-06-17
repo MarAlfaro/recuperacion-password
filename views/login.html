@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <style>
+    .recoverpassword {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  <div class="recoverpassword">
+    <button id="recoverPassword">Recuperar contraseña</button>
+    <button id="registerUser">Registrar usuario</button>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let nombreUsuario = document.getElementById('username').value;
+      let password = document.getElementById('password').value;
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombreUsuario, password })
+        });
+        
+        if(response.status === 200) {
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          alert('Has iniciado Sesión!');
+          window.location.href = "/"
+        }else {
+          const message = await response.json();
+          console.log(message)
+          alert(message);
+          document.getElementById('loginForm').reset();
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    });
+    document.getElementById("recoverPassword").addEventListener("click", () => {
+      window.location.href = "/api/recuperarPassword/formRecoverPassword"
+    })
+
+    document.getElementById("registerUser").addEventListener("click", () => {
+      window.location.href = "/api/auth/register"
+    })
+
+  </script>
+</body>
+</html>

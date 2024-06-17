@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.office365.com",
+  host: "smtp-mail.outlook.com",
   port: 587,
   secure: false,
   auth: {
@@ -11,11 +11,12 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (email, token) => {
+  console.log(email);
   const info = await transporter.sendMail({
-    from: `Admin user`,
+    from: `Admin user ${process.env.EMAIL_USER}`,
     to: email,
     subject: "Cambiar contraseña",
-    text: `Para cambiar la contraseña haga click en el siguiente enlace: http://localhost:3000/api/recuperarPassword/${token}`,
+    text: `Para cambiar la contraseña haga click en el siguiente enlace: http://localhost:3000/api/recuperarPassword?token=${token}`,
   });
 
   console.log("Correo enviado: ", info.messageId);

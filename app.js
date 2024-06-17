@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const authRoutes = require("./routes/auth");
 const changePasswordRoutes = require("./routes/changePassword");
+const dashboardRoutes = require("./routes/dashboard");
+const verifyToken = require("./middleware/auth");
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,16 +24,14 @@ mongoose
     console.error("Error conectando a MongoDB", err);
   });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/recuperarPassword", changePasswordRoutes);
-
-app.get("/", (req, res) => {
+app.get("/", verifyToken, (req, res) => {
+  console.log("A NEW REQUEST BB");
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
-app.get("/recoverEmail", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "recoverEmail.html"));
-});
+app.use("/api/auth", authRoutes);
+app.use("/api/recuperarPassword", changePasswordRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);

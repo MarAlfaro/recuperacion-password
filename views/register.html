@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Registro</h1>
+  <form id="registerForm">
+    <input type="text" id="regNombre" placeholder="Nombre" required>
+    <input type="text" id="regApellido" placeholder="Apellido" required>
+    <input type="text" id="regNombreUsuario" placeholder="Username" required>
+    <input type="text" id="regEmail" placeholder="Email" required>
+    <input type="password" id="regPassword" placeholder="Password" required>
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('regNombre').value;
+      const apellido = document.getElementById('regApellido').value;
+      const nombreUsuario = document.getElementById('regNombreUsuario').value;
+      const correo = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      console.log(nombre, apellido, nombreUsuario, correo, password)
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, apellido, nombreUsuario, password, correo })
+      });
+      if (response.ok) {
+        alert('Registro Exitoso!');
+        window.location.href = "/api/auth/login"
+      } else {
+        alert('Error al registrar usuario');
+      }
+    });
+  </script>
+</body>
+</html>
