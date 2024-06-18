@@ -11,7 +11,6 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (email, token) => {
-  console.log(email);
   const info = await transporter.sendMail({
     from: `Admin user ${process.env.EMAIL_USER}`,
     to: email,

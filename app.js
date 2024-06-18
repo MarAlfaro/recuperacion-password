@@ -25,7 +25,6 @@ mongoose
   });
 
 app.get("/", verifyToken, (req, res) => {
-  console.log("A NEW REQUEST BB");
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 

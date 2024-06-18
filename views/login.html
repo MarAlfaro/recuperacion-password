@@ -132,7 +132,6 @@
           window.location.href = "/"
         }else {
           const message = await response.json();
-          console.log(message)
           alert(message);
           document.getElementById('loginForm').reset();
         }

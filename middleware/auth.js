@@ -3,7 +3,6 @@ const path = require("path");
 
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
-  console.log("TOOKEN", token);
   if (!token) {
     return res.status(403).json({ message: "No authorizado " });
   }

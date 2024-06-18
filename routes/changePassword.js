@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 
   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: "7m",
   });
 
   const sendEmailToUser = await sendEmail(email, token);
@@ -33,7 +33,6 @@ router.get("/formRecoverPassword", (req, res) => {
 
 router.get("/", async (req, res) => {
   const { token } = req.query;
-  console.log(token);
   try {
     const validateToken = jwt.verify(token, process.env.SECRET_KEY);
 

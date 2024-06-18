@@ -87,7 +87,6 @@
       const nombreUsuario = document.getElementById('regNombreUsuario').value;
       const correo = document.getElementById('regEmail').value;
       const password = document.getElementById('regPassword').value;
-      console.log(nombre, apellido, nombreUsuario, correo, password)
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
