@@ -1,31 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   </style>
 </head>
-<body>
-  <h1>Dashboard protegido</h1>
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+  }
 
-  <div class="recoverpassword">
-    <button id="logout">LogOut</button>
+  .container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+  }
+
+  h1 {
+      margin-bottom: 20px;
+      color: #333;
+  }
+
+  .recoverpassword {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+  }
+
+  #logout {
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #dc3545;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  }
+
+  #logout:hover {
+      background-color: #c82333;
+  }
+</style>
+<body>
+  <div class="container">
+    <h1>Dashboard protegido</h1>
+
+    <div class="recoverpassword">
+      <button id="logout">LogOut</button>
+    </div>
   </div>
   <script>
-    document.addEventListener("DOMContentLoaded", async() => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
-      if(!token) {
+      if (!token) {
         window.location.href = "api/auth/login";
       }
       try {
         const response = await fetch("/api/dashboard", {
           method: "GET",
-          headers: {"Authorization": token},
+          headers: { "Authorization": token },
         });
-       if(response.status === 403) {
-        window.location.href = "api/auth/login";
-       }
+        if (response.status === 403) {
+          window.location.href = "api/auth/login";
+        }
       } catch (error) {
         console.log(error)
       }
@@ -36,4 +86,5 @@
     })
   </script>
 </body>
+
 </html>
