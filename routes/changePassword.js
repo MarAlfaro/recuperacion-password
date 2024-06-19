@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../utils/email");
+const { hashPassword } = require("../utils/hashPassword");
 const path = require("path");
 
 const router = express.Router();
@@ -59,7 +60,7 @@ router.post("/newPassword", async (req, res) => {
         return res.status(404).json({ message: "usuario no encontrado" });
       }
 
-      user.password = newPassword;
+      user.password = await hashPassword(newPassword);
 
       await user.save();
 

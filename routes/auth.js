@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const verifyToken = require("../middleware/auth");
 const path = require("path");
+const { hashPassword, comparePassword } = require("../utils/hashPassword");
 
 router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "login.html"));
@@ -20,7 +21,7 @@ router.post("/register", async (req, res) => {
       nombre,
       apellido,
       nombreUsuario,
-      password,
+      password: await hashPassword(password),
       correo,
     });
     await newUser.save();
@@ -34,12 +35,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { nombreUsuario, password } = req.body;
   try {
-    const user = await User.findOne({ nombreUsuario, password });
+    const user = await User.findOne({ nombreUsuario });
     if (!user) {
       return res.status(400).json("credenciales inválidas");
     }
-
-    if (user.password !== password) {
+    if (!(await comparePassword(password, user.password))) {
       return res.status(400).json("credenciales inválidas");
     }
 
